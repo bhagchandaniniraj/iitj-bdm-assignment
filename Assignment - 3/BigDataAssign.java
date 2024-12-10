@@ -4,12 +4,12 @@ import java.sql.*;
 
 class BigDataAssign{
     private Connection connection;
-    //private String url = "jdbc:mysql://db-g23ai2087.cojx0qdcaqlm.us-east-1.rds.amazonaws.com/db_g23ai2087";
-    private String url = "jdbc:mysql://localhost/db_g23ai2087";
-    // private String user = "admin";
-    // private String password = "IITJ1122";
-    private String user = "root";
-    private String password = "";
+    private String url = "jdbc:mysql://g23ai2087-instance.cojx0qdcaqlm.us-east-1.rds.amazonaws.com";
+    //private String url = "jdbc:mysql://localhost/db_g23ai2087";
+    private String user = "admin";
+    private String password = "z8vm6IFzsMwcgSj0mtto";
+    //private String user = "root";
+    //private String password = "";
     private String db = "db_g23ai2087";
     private Statement stmt;
     private ResultSet rs;
@@ -96,6 +96,7 @@ class BigDataAssign{
         return this.rs;
     }
     public void createTable(){
+        String select = "USE "+db;
         String createCompany = """
                 CREATE TABLE company (
                     id INT PRIMARY KEY,
@@ -120,6 +121,7 @@ class BigDataAssign{
                 )
                 """;
             try{
+                this.executeMe(select,"Update");
                 this.executeMe(createCompany,"Update");
                 this.executeMe(createStockPrice,"Update");
                 System.out.println("\nTable Created Successfully");
