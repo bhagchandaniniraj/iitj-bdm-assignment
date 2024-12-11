@@ -1,0 +1,8 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "libs/gax-2.58.0.jar",
+        "libs/google-cloud-bigtable-2.48.0.jar",
+        "libs/protobuf-java-2.4.1.jar"
+    ]
+}

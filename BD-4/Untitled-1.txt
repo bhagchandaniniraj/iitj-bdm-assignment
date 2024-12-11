@@ -1,0 +1,1 @@
+TYPE:STRING,Pseudo-Julian-Date:double,Dt:date,mytime:time,Temperature:INTEGER,Dewpoint:INTEGER,Relhum:FLOAT,Speed:INTEGER,Gust:STRING,Pressure:FLOAT

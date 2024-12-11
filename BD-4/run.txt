@@ -1,0 +1,293 @@
+
+D:\IIT - Jodhpur\BD-4>gcloud
+'gcloud' is not recognized as an internal or external command,
+operable program or batch file.
+
+D:\IIT - Jodhpur\BD-4>
+ *  History restored 
+
+Microsoft Windows [Version 10.0.22631.4460]
+(c) Microsoft Corporation. All rights reserved.
+
+D:\IIT - Jodhpur\BD-4>gcloud
+ERROR: (gcloud) Command name argument expected.
+Command name argument expected.
+
+Available command groups for gcloud:
+
+  AI and Machine Learning
+      ai                      Manage entities in Vertex AI.
+      ai-platform             Manage AI Platform jobs and models.
+      colab                   Manage Colab Enterprise resources.
+      gemini                  Manage code repository index resources.
+      ml                      Use Google Cloud machine learning capabilities.
+      ml-engine               Manage AI Platform jobs and models.
+      notebooks               Notebooks Command Group.
+      workbench               Workbench Command Group.
+
+  API Platform and Ecosystems
+
+D:\IIT - Jodhpur\BD-4>gcloud init
+Welcome! This command will take you through the configuration of gcloud.
+
+Your current configuration has been set to: [default]
+
+You can skip diagnostics next time by using the following flag:
+  gcloud init --skip-diagnostics
+
+Network diagnostic detects and fixes local network connection issues.
+Checking network connection...done.
+Reachability Check passed.
+Network diagnostic passed (1/1 checks passed).
+
+You must sign in to continue. Would you like to sign in (Y/n)?   
+
+Your browser has been opened to visit:
+
+    https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=32555940559.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8085%2F&scope=openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fappengine.admin+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fsqlservice.login+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcompute+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Faccounts.reauth&state=myM9UNRcKUhMRDkywjjPegHcRyoiPp&access_type=offline&code_challenge=q3sLD7b_KYFIy6k_4ChwSbCSNkeluadqrBiUHGt9MGM&code_challenge_method=S256      
+
+
+
+Command killed by keyboard interrupt
+
+Terminate batch job (Y/N)? y
+
+D:\IIT - Jodhpur\BD-4>gcloud init
+Welcome! This command will take you through the configuration of gcloud.
+
+Your current configuration has been set to: [default]
+
+You can skip diagnostics next time by using the following flag:
+  gcloud init --skip-diagnostics
+
+Network diagnostic detects and fixes local network connection issues.
+Checking network connection...done.
+Reachability Check passed.
+Network diagnostic passed (1/1 checks passed).
+
+You must sign in to continue. Would you like to sign in (Y/n)?
+
+Your browser has been opened to visit:
+
+    https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=32555940559.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8085%2F&scope=openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fappengine.admin+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fsqlservice.login+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcompute+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Faccounts.reauth&state=Cwfji9z0lGFPDtbRtEEjoBXvI31qEf&access_type=offline&code_challenge=ODANDpLAg0svEn_ijTT9rTkyj6hrtEFmvMhLERW4Kzc&code_challenge_method=S256      
+
+You are signed in as: [g23ai2087@iitj.ac.in].
+
+Pick cloud project to use: 
+ [1] vcc-assignment-431517
+ [2] Enter a project ID
+ [3] Create a new project
+Please enter numeric choice or text value (must exactly match list item):  3
+
+Enter a Project ID. Note that a Project ID CANNOT be changed later.
+Project IDs must be 6-30 characters (lowercase ASCII, digits, or
+hyphens) in length and start with a lowercase letter.
+The Google Cloud CLI is configured and ready to use!
+
+* Commands that require authentication will use g23ai2087@iitj.ac.in by default
+Run `gcloud help config` to learn how to change individual settings
+
+This gcloud configuration is called [default]. You can create additional configurations if you work with multiple accounts and/or projects.
+Run `gcloud topic configurations` to learn more.
+
+Some things to try next:
+
+* Run `gcloud --help` to see the Cloud Platform services you can interact with. And run `gcloud help COMMAND` to get help on any gcloud command.
+* Run `gcloud topic --help` to learn about advanced features of the CLI like arg files and output formatting
+* Run `gcloud cheat-sheet` to see a roster of go-to `gcloud` commands.
+
+D:\IIT - Jodhpur\BD-4>gcloud init
+Welcome! This command will take you through the configuration of gcloud.
+
+Settings from your current configuration [default] are:
+accessibility:
+  screen_reader: 'False'
+core:
+  account: g23ai2087@iitj.ac.in
+  disable_usage_reporting: 'False'
+
+Pick configuration to use:
+ [1] Re-initialize this configuration [default] with new settings
+ [2] Create a new configuration
+Please enter your numeric choice:  1
+
+Your current configuration has been set to: [default]
+
+You can skip diagnostics next time by using the following flag:
+  gcloud init --skip-diagnostics
+
+Network diagnostic detects and fixes local network connection issues.
+Checking network connection...done.
+Reachability Check passed.
+Network diagnostic passed (1/1 checks passed).
+
+Choose the account you want to use for this configuration.
+To use a federated user account, exit this command and sign in to the gcloud CLI with your login configuration file, then run this  
+command again.
+
+Select an account:
+ [1] g23ai2087@iitj.ac.in
+ [2] Sign in with a new Google Account
+ [3] Skip this step
+Please enter your numeric choice:  1
+
+You are signed in as: [g23ai2087@iitj.ac.in].
+
+Pick cloud project to use: 
+ [1] vcc-assignment-431517
+ [2] Enter a project ID
+ [3] Create a new project
+Please enter numeric choice or text value (must exactly match list item):  3
+
+Enter a Project ID. Note that a Project ID CANNOT be changed later.
+Project IDs must be 6-30 characters (lowercase ASCII, digits, or
+hyphens) in length and start with a lowercase letter. tri3-bdm           
+WARNING: Project creation failed: HttpError accessing <https://cloudresourcemanager.googleapis.com/v1/projects?alt=json>: response: <{'vary': 'Origin, X-Origin, Referer', 'content-type': 'application/json; charset=UTF-8', 'content-encoding': 'gzip', 'date': 'Thu, 05 Dec 2024 07:28:38 GMT', 'server': 'ESF', 'cache-control': 'private', 'x-xss-protection': '0', 'x-frame-options': 'SAMEORIGIN', 'x-content-type-options': 'nosniff', 'server-timing': 'gfet4t7; dur=1348', 'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000', 'transfer-encoding': 'chunked', 'status': 429}>, content <{
+  "error": {
+    "code": 429,
+    "message": "Quota exceeded for quota metric 'Write requests' and limit 'Write requests per minute' of service 'cloudresourcemanager.googleapis.com' for consumer 'project_number:32555940559'.",
+    "status": "RESOURCE_EXHAUSTED",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google.rpc.ErrorInfo",
+        "reason": "RATE_LIMIT_EXCEEDED",
+        "domain": "googleapis.com",
+        "metadata": {
+          "service": "cloudresourcemanager.googleapis.com",
+          "quota_location": "global",
+          "quota_limit_value": "600",
+          "consumer": "projects/32555940559",
+          "quota_metric": "cloudresourcemanager.googleapis.com/write_requests",
+          "quota_limit": "WriteRequestsPerMinutePerProject"
+        }
+      },
+      {
+        "@type": "type.googleapis.com/google.rpc.Help",
+        "links": [
+          {
+            "description": "Request a higher quota limit.",
+            "url": "https://cloud.google.com/docs/quotas/help/request_increase"
+          }
+        ]
+      }
+    ]
+  }
+}
+>
+Please make sure to create the project [tri3-bdm] using
+    $ gcloud projects create tri3-bdm
+or change to another project using
+    $ gcloud config set project <PROJECT ID>
+The Google Cloud CLI is configured and ready to use!
+
+* Commands that require authentication will use g23ai2087@iitj.ac.in by default
+Run `gcloud help config` to learn how to change individual settings
+
+This gcloud configuration is called [default]. You can create additional configurations if you work with multiple accounts and/or projects.
+Run `gcloud topic configurations` to learn more.
+
+Some things to try next:
+
+* Run `gcloud --help` to see the Cloud Platform services you can interact with. And run `gcloud help COMMAND` to get help on any gcloud command.
+* Run `gcloud topic --help` to learn about advanced features of the CLI like arg files and output formatting
+* Run `gcloud cheat-sheet` to see a roster of go-to `gcloud` commands.
+
+D:\IIT - Jodhpur\BD-4>gcloud init
+Welcome! This command will take you through the configuration of gcloud.
+
+Settings from your current configuration [default] are:
+accessibility:
+  screen_reader: 'False'
+core:
+  account: g23ai2087@iitj.ac.in
+  disable_usage_reporting: 'False'
+
+Pick configuration to use:
+ [1] Re-initialize this configuration [default] with new settings
+ [2] Create a new configuration
+Please enter your numeric choice:  1
+
+Your current configuration has been set to: [default]
+
+You can skip diagnostics next time by using the following flag:
+  gcloud init --skip-diagnostics
+
+Network diagnostic detects and fixes local network connection issues.
+Checking network connection...done.
+Reachability Check passed.
+Network diagnostic passed (1/1 checks passed).
+
+Choose the account you want to use for this configuration.
+To use a federated user account, exit this command and sign in to the gcloud CLI with your login configuration file, then run this  
+command again.
+
+Select an account:
+ [1] g23ai2087@iitj.ac.in
+ [2] Sign in with a new Google Account
+ [3] Skip this step
+Please enter your numeric choice:  1
+
+You are signed in as: [g23ai2087@iitj.ac.in].
+
+Pick cloud project to use: 
+ [1] vcc-assignment-431517
+ [2] Enter a project ID
+ [3] Create a new project
+Please enter numeric choice or text value (must exactly match list item):  tri3-bdm
+Please enter a value between 1 and 3, or a value present in the list:  2
+
+Enter project ID you would like to use:  tri3-bdm
+Your current project has been set to: [tri3-bdm].
+
+Not setting default zone/region (this feature makes it easier to use
+[gcloud compute] by setting an appropriate default value for the
+--zone and --region flag).
+See https://cloud.google.com/compute/docs/gcloud-compute section on how to set
+default compute region and zone manually. If you would like [gcloud init] to be
+able to do this for you the next time you run it, make sure the
+Compute Engine API is enabled for your project on the
+https://console.developers.google.com/apis page.
+
+Created a default .boto configuration file at [C:\Users\niraj\.boto]. See this file and
+[https://cloud.google.com/storage/docs/gsutil/commands/config] for more
+information about configuring Google Cloud Storage.
+The Google Cloud CLI is configured and ready to use!
+
+* Commands that require authentication will use g23ai2087@iitj.ac.in by default
+* Commands will reference project `tri3-bdm` by default
+Run `gcloud help config` to learn how to change individual settings
+
+This gcloud configuration is called [default]. You can create additional configurations if you work with multiple accounts and/or projects.
+Run `gcloud topic configurations` to learn more.
+
+Some things to try next:
+
+* Run `gcloud --help` to see the Cloud Platform services you can interact with. And run `gcloud help COMMAND` to get help on any gcloud command.
+* Run `gcloud topic --help` to learn about advanced features of the CLI like arg files and output formatting
+* Run `gcloud cheat-sheet` to see a roster of go-to `gcloud` commands.
+
+D:\IIT - Jodhpur\BD-4>gcloud auth application-default login
+Your browser has been opened to visit:
+
+    https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=764086051850-6qr4p6gpi6hn506pt8ejuq83di341hur.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8085%2F&scope=openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fsqlservice.login&state=oG4Vd1geEwsPQic4KToY3qSlgplCao&access_type=offline&code_challenge=kp-64-X1UsE6obJpctTa4csQ5vHqfZy0YP5wbfpmCJ4&code_challenge_method=S256      
+
+
+Credentials saved to file: [C:\Users\niraj\AppData\Roaming\gcloud\application_default_credentials.json]
+
+These credentials will be used by any library that requests Application Default Credentials (ADC).
+
+Quota project "tri3-bdm" was added to ADC which can be used by Google client libraries for billing and quota. Note that some services may still bill the project owning the resource.
+
+D:\IIT - Jodhpur\BD-4>gcloud auth application-default login
+Your browser has been opened to visit:
+
+    https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=764086051850-6qr4p6gpi6hn506pt8ejuq83di341hur.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8085%2F&scope=openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fsqlservice.login&state=dfPY2s2HfpJejmpUtG5xoZEbohjg6z&access_type=offline&code_challenge=jJAMLWZuOMraQE55hqo_WceQtb56aPqogQeuOrX6eVg&code_challenge_method=S256
+
+
+Credentials saved to file: [C:\Users\niraj\AppData\Roaming\gcloud\application_default_credentials.json]
+
+These credentials will be used by any library that requests Application Default Credentials (ADC).
+
+Quota project "tri3-bdm" was added to ADC which can be used by Google client libraries for billing and quota. Note that some services may still bill the project owning the resource.
+
+D:\IIT - Jodhpur\BD-4>
