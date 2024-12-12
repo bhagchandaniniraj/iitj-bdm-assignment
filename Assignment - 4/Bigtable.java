@@ -10,24 +10,29 @@ import com.google.cloud.bigtable.admin.v2.models.CreateTableRequest;
 import com.google.cloud.bigtable.admin.v2.models.ModifyColumnFamiliesRequest;
 import com.google.cloud.bigtable.data.v2.BigtableDataClient;
 import com.google.cloud.bigtable.data.v2.models.RowMutation;
+import com.google.cloud.bigtable.data.v2.BigtableDataClient;
+import com.google.cloud.bigtable.data.v2.models.Row;
+import com.google.cloud.bigtable.data.v2.models.Filters;
+import com.google.cloud.bigtable.data.v2.models.Query;
+import com.google.cloud.bigtable.data.v2.models.RowCell;
+
 
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
+import java.util.List;
 
 
 public class Bigtable {
-    // Configuration details
     public final String projectId = "teak-ellipse-444102-d3";
     public final String instanceId = "g23ai2087-instance";
     public final String COLUMN_FAMILY = "sensor";
     public final String tableId = "weather";
     private BigtableDataClient bigtableClient;
-    // Clients for Bigtable
+
     private BigtableDataClient dataClient;
     private BigtableTableAdminClient adminClient;
-
-    // Main method with a menu-driven program
+    private static final String TEMPERATURE_COLUMN = "temperature";
     public static void main(String[] args) throws Exception {
         Bigtable bigtable = new Bigtable();
         Scanner scanner = new Scanner(System.in);
@@ -63,16 +68,12 @@ public class Bigtable {
                     System.out.println("Temperature: " + bigtable.query1());
                     break;
                 case 6:
-                    System.out.println("Highest Wind Speed: " + bigtable.query2());
+                    System.out.println("Highest Wind Speed: " + bigtable.query2(bigtable.tableId,"Portland"));
                     break;
                 case 7:
-                    ArrayList<Object[]> data = bigtable.query3();
-                    System.out.println("Readings for SeaTac:");
-                    for (Object[] row : data) {
-                        for (Object val : row) {
-                            System.out.print(val + " ");
-                        }
-                        System.out.println();
+                    List<String> readings = bigtable.query3();
+                    for (String reading : readings) {
+                        System.out.println(reading);
                     }
                     break;
                 case 8:
@@ -89,8 +90,6 @@ public class Bigtable {
         }
     }
 
-    // Connect method
-    // Connect method
     public void connect() throws IOException {
         System.out.println("Establishing connection to Bigtable...");
 
@@ -108,10 +107,8 @@ public class Bigtable {
                 .build();
         adminClient = BigtableTableAdminClient.create(adminSettings);
 
-        // Initialize Bigtable client
         bigtableClient = BigtableDataClient.create(dataSettings);
 
-        // Check and create table if it doesn't exist
         try {
             if (!adminClient.exists(tableId)) {
                 System.out.println("Table '" + tableId + "' not found. Creating a new table...");
@@ -123,16 +120,13 @@ public class Bigtable {
         } catch (Exception e) {
             System.err.println("Error during connection setup: " + e.getMessage());
         }
-
         System.out.println("Connection to Bigtable established successfully.");
     }
 
-    
     public void createTable() {
         try {
-            // Define the table schema with a single column family
             CreateTableRequest createTableRequest = CreateTableRequest.of(tableId)
-                    .addFamily(COLUMN_FAMILY); // Add the column family
+                    .addFamily(COLUMN_FAMILY); 
     
             // Create the table
             adminClient.createTable(createTableRequest);
@@ -143,7 +137,6 @@ public class Bigtable {
         }
     }
 
-    // Delete Table
     public void deleteTable() {
         System.out.println("Deleting table: " + tableId);
         try {
@@ -154,25 +147,25 @@ public class Bigtable {
         }
     }
 
-    // Load Data
-    // Load Data method
     public void loadData() {
         System.out.println("Loading data into table...");
         String[] files = {"data/portland.csv", "data/seatac.csv", "data/vancouver.csv"};
+        int batchSize = 500; 
+        int count = 1;
 
         try {
             for (String file : files) {
                 System.out.println("Reading file: " + file);
                 BufferedReader br = new BufferedReader(new FileReader(file));
-                String line = br.readLine(); // Skip the header line
-            
+                String line = br.readLine(); 
+                int cnt = 1;
                 String fileName = new File(file).getName();
                 String city = fileName.substring(0, fileName.lastIndexOf(".csv"));
-            
+
+                List<RowMutation> rowMutations = new ArrayList<>();
+
                 while ((line = br.readLine()) != null) {
                     String[] values = line.split(",");
-            
-                    // Extract data columns
                     String date = values[1].trim();
                     String time = values[2].trim();
                     String temperature = values[3].trim();
@@ -180,21 +173,33 @@ public class Bigtable {
                     String humidity = values[5].trim();
                     String windspeed = values[6].trim();
                     String pressure = values[7].trim();
-            
-                    // Construct row key
+
                     String rowKey = date + "_" + time;
-            
-                    // Insert rows
-                    insertRow(rowKey, COLUMN_FAMILY, "temperature", temperature, city);
-                    insertRow(rowKey, COLUMN_FAMILY, "dewpoint", dewpoint, city);
-                    insertRow(rowKey, COLUMN_FAMILY, "humidity", humidity, city);
-                    insertRow(rowKey, COLUMN_FAMILY, "windspeed", windspeed, city);
-                    insertRow(rowKey, COLUMN_FAMILY, "pressure", pressure, city);
-                    insertRow(rowKey, COLUMN_FAMILY, "city", city, file);
+                    rowMutations.add(RowMutation.create(tableId, rowKey)
+                            .setCell(COLUMN_FAMILY, "temperature", temperature)
+                            .setCell(COLUMN_FAMILY, "dewpoint", dewpoint)
+                            .setCell(COLUMN_FAMILY, "humidity", humidity)
+                            .setCell(COLUMN_FAMILY, "windspeed", windspeed)
+                            .setCell(COLUMN_FAMILY, "pressure", pressure)
+                            .setCell(COLUMN_FAMILY, "city", city));
+                    System.out.println(cnt++ +")City: "+city+", Temp:" +temperature+", Dew:"+dewpoint+", humidity:"+humidity+", ws:"+windspeed+", press:"+pressure);
+
+                    if (rowMutations.size() == batchSize) {
+                        batchInsert(rowMutations);
+                        rowMutations.clear();
+                        System.out.println("Batch of " + batchSize + " rows inserted.");
+                    }
+
+                    System.out.println("Row: " + ++count + " Prepared!");
+                }
+
+                if (!rowMutations.isEmpty()) {
+                    batchInsert(rowMutations);
+                    System.out.println("Final batch for " + city + " inserted.");
                 }
                 br.close();
             }
-            
+
             System.out.println("Data loaded successfully.");
         } catch (Exception e) {
             System.err.println("Error loading data: " + e.getMessage());
@@ -202,56 +207,148 @@ public class Bigtable {
         }
     }
 
-
-    // Adjusted insertRow method to include filename parameter
-        // Insert Row method
-    private void insertRow(String rowKey, String family, String column, String value, String file) {
-        try {
-            // Create a mutation to insert data
-            RowMutation rowMutation = RowMutation.create(tableId, rowKey)
-                    .setCell(family, column, value);
-
-            // Apply the mutation
-            bigtableClient.mutateRow(rowMutation);
-
-            System.out.println("Inserted row: RowKey='" + rowKey + "', Column='" + family + ":" + column + "', Value='" + value + "'"+ ", File: "+ file);
-        } catch (Exception e) {
-            System.err.println("Error inserting row: RowKey='" + rowKey + "', Column='" + family + ":" + column + "', Value='" + value + "'");
-            e.printStackTrace();
+    private void batchInsert(List<RowMutation> rowMutations) {
+        for (RowMutation mutation : rowMutations) {
+            try {
+                bigtableClient.mutateRow(mutation);
+            } catch (Exception e) {
+                System.err.println("Error inserting batch: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
-   
+    
+    public String query1() {
+        String rowKey = "2022-10-01_10:00";
 
-    // Query 1
-    public int query1() {
-        System.out.println("Executing Query 1: Temperature at Vancouver.");
-        // Add query logic here
-        return 0;
+        try {
+            Row row = bigtableClient.readRow(tableId, rowKey);
+            if (row != null && row.getCells(COLUMN_FAMILY, TEMPERATURE_COLUMN).size() > 0) {
+                // Get the latest value for the temperature column
+                return row.getCells(COLUMN_FAMILY, TEMPERATURE_COLUMN).get(0).getValue().toStringUtf8();
+            } else {
+                return "Temperature data not found for the given row key.";
+            }
+        } catch (Exception e) {
+            System.err.println("Error querying Bigtable: " + e.getMessage());
+            e.printStackTrace();
+            return "Error occurred while querying.";
+        }
     }
 
-    // Query 2
-    public int query2() {
-        System.out.println("Executing Query 2: Highest Wind Speed in Portland.");
-        // Add query logic here
-        return 0;
+    public String query2(String tableId, String city) {
+        try {
+            String rowKeyPrefix = city + "_2022-09";
+            String highestWindSpeedRowKey = null;
+            double maxWindSpeed = Double.MIN_VALUE;
+            Query query = Query.create(tableId).prefix(rowKeyPrefix);
+    
+            for (Row row : bigtableClient.readRows(query)) {
+                // Get windspeed cells
+                List<RowCell> windspeedCells = row.getCells(COLUMN_FAMILY, "windspeed");
+                for (RowCell cell : windspeedCells) {
+                    String windSpeedValue = cell.getValue().toStringUtf8();
+                    double windSpeed = Double.parseDouble(windSpeedValue);
+    
+                    // Update max wind speed if current value is higher
+                    if (windSpeed > maxWindSpeed) {
+                        maxWindSpeed = windSpeed;
+                        highestWindSpeedRowKey = row.getKey().toStringUtf8();
+                    }
+                }
+            }
+    
+            if (highestWindSpeedRowKey != null) {
+                return "Highest wind speed in September 2022 in Portland: " + maxWindSpeed + " km/h";
+            } else {
+                return "No data found for the specified query.";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error occurred while querying data.";
+        }
     }
-
-    // Query 3
-    public ArrayList<Object[]> query3() {
-        System.out.println("Executing Query 3: Readings for SeaTac.");
-        ArrayList<Object[]> data = new ArrayList<>();
-        // Add query logic here
-        return data;
+    
+    public List<String> query3() {
+        System.out.println("Executing Query 3: Retrieving readings for SeaTac on October 1, 2022, at 10:00.");
+    
+        String tableId = this.tableId; 
+        String rowKey = "2022-10-01_10:00";
+    
+        List<String> readings = new ArrayList<>();
+        try {
+            Row row = bigtableClient.readRow(tableId, rowKey);
+    
+            if (row != null) {
+                StringBuilder rowData = new StringBuilder();
+                rowData.append("RowKey: ").append(row.getKey().toStringUtf8()).append(", Data: {");
+    
+                // Iterate over all cells in the row
+                for (RowCell cell : row.getCells()) {
+                    String columnQualifier = cell.getQualifier().toStringUtf8();
+                    String value = cell.getValue().toStringUtf8();
+                    rowData.append(columnQualifier).append(": ").append(value).append(", ");
+                }
+    
+                if (rowData.lastIndexOf(", ") > 0) {
+                    rowData.delete(rowData.lastIndexOf(", "), rowData.length());
+                }
+                rowData.append("}");
+    
+                readings.add(rowData.toString());
+            } else {
+                readings.add("No data found for row key: " + rowKey);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            readings.add("Error occurred while querying data.");
+        }
+        return readings;
     }
-
+    
     // Query 4
     public int query4() {
-        System.out.println("Executing Query 4: Highest Temperature in Summer.");
-        // Add query logic here
-        return 0;
+        System.out.println("Executing Query 4: Highest Temperature in Summer 2022 (July, August).");
+        String tableId = "weather"; // Replace with your Bigtable table ID
+
+        String[] summerMonths = {"2022-07", "2022-08"};
+        int highestTemperature = Integer.MIN_VALUE; 
+        try {
+            for (String month : summerMonths) {
+                // Construct the row key prefix for each month
+                String rowKeyPrefix = month;
+    
+                Query query = Query.create(tableId).prefix(rowKeyPrefix);
+    
+                for (Row row : bigtableClient.readRows(query)) {
+                    // Iterate over all cells in the row to find the temperature column
+                    for (RowCell cell : row.getCells(COLUMN_FAMILY, "temperature")) {
+                        try {
+                            int temp = Integer.parseInt(cell.getValue().toStringUtf8());
+                            if (temp > highestTemperature) {
+                                highestTemperature = temp; // Update the highest temperature
+                            }
+                        } catch (NumberFormatException e) {
+                            System.err.println("Invalid temperature value: " + cell.getValue().toStringUtf8());
+                        }
+                    }
+                }
+            }
+    
+            if (highestTemperature == Integer.MIN_VALUE) {
+                System.out.println("No temperature data found for summer months.");
+            } else {
+                System.out.println("Highest Temperature in Summer 2022: " + highestTemperature);
+            }
+    
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error occurred while querying data.");
+        }
+    
+        return highestTemperature;
     }
 
-    // Close Bigtable clients
     public void close() {
         if (dataClient != null) {
             dataClient.close();
