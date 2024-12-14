@@ -201,25 +201,41 @@ public class RedisClient {
         String cursor = "0";
         int acceptedCount = 0; // Counter for accepted keys
         int rejectedCount = 0; // Counter for rejected keys
-    
+        
         do {
             // Scan for keys matching "user:*"
             ScanResult<String> scanResult = jedis.scan(cursor, new ScanParams().match("user:*").count(100));
             cursor = scanResult.getCursor();
-    
+        
             System.out.println("Current cursor: " + cursor); // Debugging output to track cursor progress
             System.out.println("Scanning " + scanResult.getResult().size() + " keys...");
+        
+            // Use pipelining to reduce round-trips for fetching user fields
+            Pipeline pipeline = jedis.pipelined();
+            Map<String, Response<String>> genderResponses = new HashMap<>();
+            Map<String, Response<String>> countryResponses = new HashMap<>();
+            Map<String, Response<String>> latitudeResponses = new HashMap<>();
+        
+            for (String key : scanResult.getResult()) {
+                // Initiate multiple Redis calls to fetch all required fields in parallel
+                genderResponses.put(key, pipeline.hget(key, "gender"));
+                countryResponses.put(key, pipeline.hget(key, "country"));
+                latitudeResponses.put(key, pipeline.hget(key, "latitude"));
+            }
+            
+            // Execute the pipeline (all requests are sent to Redis in parallel)
+            pipeline.sync();
     
+            // Now process the responses
             for (String key : scanResult.getResult()) {
                 try {
-                    // Fetch necessary attributes
-                    String gender = jedis.hget(key, "gender");
-                    String country = jedis.hget(key, "country");
-                    String latitudeStr = jedis.hget(key, "latitude");
-    
+                    String gender = genderResponses.get(key).get();
+                    String country = countryResponses.get(key).get();
+                    String latitudeStr = latitudeResponses.get(key).get();
+        
                     if (latitudeStr != null) {
                         double latitude = Double.parseDouble(latitudeStr);
-    
+        
                         // Check conditions
                         if ("female".equalsIgnoreCase(gender) &&
                             ("China".equalsIgnoreCase(country) || "Russia".equalsIgnoreCase(country)) &&
@@ -229,32 +245,26 @@ public class RedisClient {
                                 " (Gender: " + gender + ", Country: " + country + ", Latitude: " + latitude + ")");
                             acceptedCount++;
                         } else {
-                            //System.out.println("Rejected key: " + key + 
-                            //    " (Gender: " + gender + ", Country: " + country + ", Latitude: " + latitude + ")");
                             rejectedCount++;
                         }
                     } else {
-                        //System.out.println("Rejected key: " + key + " (Latitude is null)");
                         rejectedCount++;
                     }
                 } catch (NumberFormatException e) {
-                    //System.out.println("Rejected key: " + key + " (Latitude parsing error)");
                     rejectedCount++;
                 } catch (NullPointerException e) {
-                    //System.out.println("Rejected key: " + key + " (Missing required fields)");
                     rejectedCount++;
                 }
             }
         } while (!cursor.equals("0")); // Continue scanning until the cursor loops back to "0"
-    
+        
         // Summary
         System.out.println("Query complete. Found " + result.size() + " matching users.");
         System.out.println("Accepted keys: " + acceptedCount + ", Rejected keys: " + rejectedCount);
-    
+        
         return result;
-    }
+    }    
     
-
     public void query5() {
         if (!jedis.exists("leaderboard:2")) {
             System.out.println("Leaderboard data does not exist.");
@@ -296,7 +306,6 @@ public class RedisClient {
         }
     }
     
-
     public void clearRedis() {
         jedis.flushAll();
         System.out.println("All Redis tables have been cleared.");
