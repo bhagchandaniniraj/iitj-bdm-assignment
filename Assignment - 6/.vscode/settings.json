@@ -1,0 +1,23 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "Drivers/aws-java-sdk-core-1.12.408.jar",
+        "Drivers/aws-java-sdk-redshift-1.12.236.jar",
+        "Drivers/aws-java-sdk-redshift-1.12.408.jar",
+        "Drivers/aws-java-sdk-redshiftserverless-1.12.251.jar",
+        "Drivers/aws-java-sdk-redshiftserverless-1.12.408.jar",
+        "Drivers/aws-java-sdk-sts-1.12.408.jar",
+        "Drivers/commons-codec-1.15.jar",
+        "Drivers/commons-logging-1.2.jar",
+        "Drivers/httpclient-4.5.14.jar",
+        "Drivers/httpcore-4.4.16.jar",
+        "Drivers/jackson-annotations-2.14.2.jar",
+        "Drivers/jackson-core-2.14.2.jar",
+        "Drivers/jackson-databind-2.14.2.jar",
+        "Drivers/jackson-dataformat-cbor-2.14.2.jar",
+        "Drivers/joda-time-2.8.1.jar",
+        "Drivers/mysql-connector-java-8.0.27.jar",
+        "Drivers/redshift-jdbc41-1.2.12.1017.jar",
+        "Drivers/redshift-jdbc42-2.1.0.12.jar"
+    ]
+}
