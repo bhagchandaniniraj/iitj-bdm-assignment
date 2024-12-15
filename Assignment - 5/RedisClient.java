@@ -23,8 +23,8 @@ public class RedisClient {
 
     public RedisClient() {
         try {
-            jedis = new Jedis("redis-16150.c16.us-east-1-3.ec2.redns.redis-cloud.com", 16150);
-            String password = "OahVB0ixFG49ILZK5qvC6QG6BmujVgHC"; // Replace with your Redis password
+            jedis = new Jedis("g23ai2087-cluster.cndskybccs1r.us-east-1.redshift.amazonaws.com/dev", 5439);
+            String password = "QYG2W3RqFDbYAGs1SeUr30iQCvTFpGYt"; // Replace with your Redis password
             jedis.auth(password);
             System.out.println("Connected to Redis with authentication.");
         } catch (JedisException e) {
