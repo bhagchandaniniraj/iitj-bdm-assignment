@@ -1,0 +1,16 @@
+I am writing you the TXT on behalf of my team, where we have completed creating a 
+project for BDM as an assignment.
+
+My Live url is
+
+UI : http://54.160.26.39:5173/
+
+Banckend : http://3.210.57.128:5000/
+
+Github :https://github.com/shubham14p3/IITJ-BDM-URBAN-MOBILITY-AND-INFRASTRUCTURE-OPTIMIZATION-USING-OPENSTREETMAP-DATA
+
+My Gihub Readme :https://github.com/shubham14p3/IITJ-BDM-URBAN-MOBILITY-AND-INFRASTRUCTURE-OPTIMIZATION-USING-OPENSTREETMAP-DATA/blob/main/README.md
+
+Youtube : https://youtu.be/cquh7aX-s_0
+
+Loom : https://www.loom.com/share/a0dc151ded764fdf904af7deaf1b869c
